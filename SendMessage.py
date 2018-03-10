@@ -3,8 +3,11 @@ from flask import Flask, jsonify
 from flask import abort
 from flask import request
 from twilio.rest import Client
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app, resources={r"/api/*": {"origins": "*"}})
+
 
 tasks = [
     {
@@ -13,6 +16,11 @@ tasks = [
         'done': False
     }
 ]
+
+@app.route("/")
+def helloWorld():
+  return "Hello, cross-origin-world!"
+
 def send_message(messagebody,phone):
     # put your own credentials here
     account_sid = "AC9d90fe30d7e5179011a893f4b2fa5ea0"
@@ -47,4 +55,5 @@ def create_task():
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
